@@ -8,7 +8,6 @@
 
 path {
   stroke: #fff;
-  fill-rule: evenodd;
 }
 
     </style>
@@ -43,10 +42,48 @@ d3.json("hurricanes.json", function(json) {
   var path = vis.data([json]).selectAll("path")
       .data(partition.nodes)
     .enter().append("svg:path")
+      //.attr("display", function(d) {return d.depth ? null : "none";}) //hide inner ring
       .attr("d", arc)
-      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      //.style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      .style("fill", getColor)
       .on("click", click)
       .on("mouseover", hover);
+      
+  function getColor(d){
+  	if (d.children){
+  		if (!d.ace){
+  			return "#ffffff"
+  		}
+  		if (d.ace > 153){
+  			return "#0570b0";
+  		}
+  		else if(d.ace > 103){
+  			return "#74a9cf";
+  		}
+  		else if(d.ace > 66){
+  			return "#bdc9e1";
+  		}
+  		else{
+  			return "#f1eef6";
+  		}
+  	}
+  	else{
+  		switch(d.name){
+  		case "tropicalStorm":
+  			return "#F1EEF6"
+  		case "cat1":
+  			return "#D0D1E6"
+  		case "cat2":
+  			return "#A6BDDB"
+  		case "cat3":
+  			return "#74A9CF"
+  		case "cat4":
+  			return "#2B8CBE"
+  		case "cat5":
+  			return "#045A8D"
+  		}
+  	}
+  }
   function click(d) {
     path.transition()
       .duration(750)

@@ -9,7 +9,8 @@ def main():
 		line = line.split()
 		year= line[0]
 		numStorms = line[1]
-		jsonFile.write('\n\t{ "name": "' + year + '" , "numStorms": "' + numStorms + '" ,"children": [\n')
+		ace = line[7]
+		jsonFile.write('\n\t{ "name": "' + year + '" , "numStorms": "' + numStorms + '" , "ace": "' + ace + '" ,"children": [\n')
 		for i in range(11,17):
 			cat = i - 11 #give category of hurricane
 			if cat == 0:
@@ -20,7 +21,6 @@ def main():
 			if i != 16:
 				jsonFile.write(',')
 		jsonFile.write('\n\t] },')		
-	
 	jsonFile.write('\n] }')
 	file.close()
 	jsonFile.close()
