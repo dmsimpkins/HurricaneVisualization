@@ -4,6 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>Hurricanes Sunburst</title>
     <script src="http://d3js.org/d3.v2.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
+    <script type="text/javascript" src="tipsy.js"></script>
+    <link href="tipsy.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
 
 path {
@@ -90,9 +93,15 @@ d3.json("hurricanes.json", function(json) {
       .attrTween("d", arcTween(d));
   }
   function hover(d){
-  	d3.select(this)
-  		.text(d.number);
+  	d3.selectAll("path")
+  		.attr("title", function(d){return d.name;});
   }
+  
+
+  $('svg g path').tipsy({
+  	gravity: 'n',
+  	html: true
+  });
 });
 
 // Interpolate the scales!
