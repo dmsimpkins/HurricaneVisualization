@@ -47,7 +47,6 @@ h1 {
   </head>
   <body>
     <h1> Hurricanes & Tropical Storms from 1858-2007 </h1>
-    <!--
     <div id="sort">
     <h3>Sort by:</h3>
     <form>
@@ -55,7 +54,6 @@ h1 {
     <input type="radio" name="sortBy" value="year"> Year
     </form>
     </div>
-    -->
     <div id="chart"></div>
     <div id="table"></div>
     <script type="text/javascript">
@@ -68,6 +66,10 @@ var w = 960,
     y = d3.scale.sqrt().range([0, r]),
     color = d3.scale.category20c();
 
+var sortByNum = true;
+draw();
+
+function draw(){
 //Create the SVG element to hold our sunburst visualization
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
@@ -77,7 +79,15 @@ var vis = d3.select("#chart").append("svg:svg")
 
 //Partition our data according to the number of storms for a given year
 var partition = d3.layout.partition()
-    .value(function(d) { return d.number;});
+    .sort(function(d) { 
+    	if(sortByNum == true){
+    		return d.number;
+    	}
+    	else{
+    		return d.year;
+    	}
+    })
+    .value(function(d) {return d.number;});
 
 //Calculate the angles for our arcs
 var arc = d3.svg.arc()
@@ -96,30 +106,15 @@ d3.json("hurricanes.json", function(json) {
       .style("fill", getColor)
       .on("click", click)
       .on("mouseover", hover)
-      .each(stash);
       
    //Shift the visualization based on if the user wants to sort by the number of storms or the year   
   d3.selectAll("input").on("change", function change() {
-    var val = this.value === "intensity"
-        ? function(d) { return d.number; }
-        : function(d) { return d.year; };
-    
-    partition
-     .sort(function(d) {return d.year})
-     .value(function(d) { return d.number;});
-    
-    path
-     .data(partition.nodes)
-      .transition()
-        .duration(800)
-        .attrTween("d", arcTween2);
+    sortByNum = !sortByNum;
+    d3.select("svg").remove();
+    draw();
   });
   
-  // Stash the old values for transition.
-   function stash(d) {
-  	d.x0 = d.x;
-  	d.dx0 = d.dx;
-	}   
+
 	
   //function to determine the correct color for a particular path
   //"Year" paths colored according to ACE index
@@ -194,6 +189,8 @@ d3.json("hurricanes.json", function(json) {
   });
 });
 
+}//end draw
+
 // Interpolate the scales!
 function arcTween(d) {
   var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
@@ -203,17 +200,6 @@ function arcTween(d) {
     return i
         ? function(t) { return arc(d); }
         : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
-  };
-}
-
-// Interpolate the arcs in data space.
-function arcTween2(a) {
-  var i = d3.interpolate({x: a.x0, dx: a.dx0}, a);
-  return function(t) {
-    var b = i(t);
-    a.x0 = b.x;
-    a.dx0 = b.dx;
-    return arc(b);
   };
 }
 

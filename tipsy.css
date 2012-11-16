@@ -1,4 +1,4 @@
-.tipsy { font-size: 12px; position: absolute; padding: 6px; z-index: 100000; }
+.tipsy { font-size: 14px; position: absolute; padding: 8px; z-index: 100000; font-family: Helvetica, Arial, Sans-serif;}
   .tipsy-inner { background-color: #000; color: #FFF; max-width: 200px; padding: 5px 8px 4px 8px; text-align: center; }
 
   /* Rounded corners */
@@ -7,7 +7,7 @@
   /* Uncomment for shadow */
   /*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
   
-  /*.tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }*/
+  .tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }
   
   /* Rules to colour arrows */
   .tipsy-arrow-n { border-bottom-color: #000; }
