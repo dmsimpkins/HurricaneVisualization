@@ -67,6 +67,7 @@ var w = 960,
     color = d3.scale.category20c();
 
 var sortByNum = true;
+var arc;
 draw();
 
 function draw(){
@@ -90,7 +91,7 @@ var partition = d3.layout.partition()
     .value(function(d) {return d.number;});
 
 //Calculate the angles for our arcs
-var arc = d3.svg.arc()
+arc = d3.svg.arc()
     .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
     .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })

@@ -43,21 +43,60 @@ h1 {
  	text-align: left;
 }
 
+#chart{
+	float: left;
+}
+#tables{
+	float:right;
+}
+table {
+	
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+td{
+padding: 5px;
+}
+
     </style>
   </head>
   <body>
     <h1> Hurricanes & Tropical Storms from 1858-2007 </h1>
-    <!--
+    
     <div id="sort">
+	<!--
     <h3>Sort by:</h3>
     <form>
     <input type="radio" name="sortBy" value="intensity" checked="true"> Number of Storms<br>
     <input type="radio" name="sortBy" value="year"> Year
     </form>
     </div>
-    -->
+	-->
+    
     <div id="chart"></div>
-    <div id="table"></div>
+	<div id="tables"
+	<table>
+	Category: <table border = "0">
+	<tr>
+	<td bgcolor="#7FC97F"> TS</td>
+	<td bgcolor="#BEAED4"> CAT1</td>
+	<td bgcolor="#FDC086">CAT2 </td>
+	<td bgcolor="FFFF99"> CAT3</td>
+	<td bgcolor="#386CB0"> CAT4</td>
+	<td bgcolor="#F0027F"> CAT5</td>
+	</tr>
+	</table>
+	ACE:
+	<table border="0">
+	<tr>
+	<td bgcolor="#F1EEF6"> >0 </td>
+	<td bgcolor="#BDC9E1"> >65 </6td>
+	<td bgcolor="#74A9CF"> >103 </td>
+	<td bgcolor="#0570B0"> >152 </td>
+	</tr>
+	</table>
+	</div>
     <script type="text/javascript">
 
 //Set up our initial viewing window
@@ -105,7 +144,7 @@ d3.json("hurricanes.json", function(json) {
         : function(d) { return d.year; };
     
     partition
-     .sort(function(d) {return d.year})
+     .sort(function(d) {return val})
      .value(function(d) { return d.number;});
     
     path
@@ -147,17 +186,17 @@ d3.json("hurricanes.json", function(json) {
   		//Return value based on category of storm
   		switch(d.name){
   		case "tropicalStorm":
-  			return "#F1EEF6"
+  			return "#7fc97f"
   		case "cat1":
-  			return "#D0D1E6"
+  			return "#beaed4"
   		case "cat2":
-  			return "#A6BDDB"
+  			return "#fdc086"
   		case "cat3":
-  			return "#74A9CF"
+  			return "#ffff99"
   		case "cat4":
-  			return "#2B8CBE"
+  			return "#386cb0"
   		case "cat5":
-  			return "#045A8D"
+  			return "#f0027f"
   		}
   	}
   }
